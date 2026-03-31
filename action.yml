@@ -1,0 +1,16 @@
+name: 'Ghost Linter'
+description: 'Executes the Ghost linter'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Download binary
+      shell: bash
+      run: |
+        # Note: This downloads the 'latest' release.
+        curl -L -o ${{ github.action_path }}/ghost https://github.com/lucalewin/ghost/releases/latest/download/ghost
+        chmod +x ${{ github.action_path }}/ghost
+
+    - name: Execute tool
+      shell: bash
+      run: ${{ github.action_path }}/ghost

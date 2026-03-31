@@ -1,0 +1,34 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+'
+
+jobs:
+  release:
+    name: Build and Upload Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Installing the musl target ensures the binary is fully static.
+      # This prevents "glibc version not found" errors on different Linux runners.
+      - name: Install Rust toolchain
+        run: |
+          rustup update stable
+          rustup target add x86_64-unknown-linux-musl
+
+      - name: Build for Linux (musl)
+        run: cargo build --release --target x86_64-unknown-linux-musl
+
+      - name: Rename binary for upload
+        # Replace 'your_crate_name' with the actual name in your Cargo.toml
+        run: mv target/x86_64-unknown-linux-musl/release/your_crate_name my-rust-tool-linux
+
+      # This action automatically creates a GitHub Release and attaches the file
+      - name: Upload Release Asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: my-rust-tool-linux
