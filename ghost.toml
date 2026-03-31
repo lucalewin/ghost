@@ -1,2 +1,12 @@
-block_zero_width_spaces = true
-block_variation_selectors = true
+exclude = ["./tests", "./vendor", "./node_modules"]
+
+[unicode]
+check_zero_width = true
+check_variation_selectors = true
+check_bidi_controls = true
+check_invisible_math = true
+check_homoglyphs = true
+
+[unicode.allowlist]
+files = [""]
+chars = [""]
