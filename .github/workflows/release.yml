@@ -9,6 +9,10 @@ jobs:
   release:
     name: Build and Upload Release
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -25,6 +29,6 @@ jobs:
         run: mv target/x86_64-unknown-linux-musl/release/ghost ghost
 
       - name: Upload Release Asset
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v6
         with:
           files: ghost
